@@ -12,7 +12,7 @@
 
 <h1>Crear Revista</h1>
 
-<form action="/revistas" method="POST">
+<form action="/revista" method="POST">
     @csrf
 
     <fieldset>

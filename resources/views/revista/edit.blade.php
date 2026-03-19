@@ -12,7 +12,7 @@
 
 <h1>Editar Revista</h1>
 
-<form action="/revistas/{{ $revista->id }}" method="POST">
+<form action="/revista/{{ $revista->id }}" method="POST">
     @csrf
     @method('PUT')
 

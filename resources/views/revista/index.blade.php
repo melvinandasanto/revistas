@@ -12,7 +12,7 @@
 
 <h1>Lista de Revistas</h1>
 
-<a href="/revistas/create" class="btn btn-success mb-3">
+<a href="/revista/create" class="btn btn-success mb-3">
     Crear Revista
 </a>
 
@@ -41,13 +41,13 @@
             <td>{{ $revista->categoria }}</td>
 
             <td>
-                <a href="/revistas/{{ $revista->id }}/edit" class="btn btn-warning btn-sm">
+                <a href="/revista/{{ $revista->id }}/edit" class="btn btn-warning btn-sm">
                     Editar
                 </a>
             </td>
 
             <td>
-                <form action="/revistas/{{ $revista->id }}" method="POST">
+                <form action="/revista/{{ $revista->id }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-sm">

@@ -12,7 +12,7 @@
 
 <h1>Lista de Artículos</h1>
 
-<a href="/articulos/create" class="btn btn-success mb-3">
+<a href="/articulo/create" class="btn btn-success mb-3">
     Crear Artículo
 </a>
 
@@ -39,13 +39,13 @@
             <td>{{ $articulo->issn }}</td>
 
             <td>
-                <a href="/articulos/{{ $articulo->id }}/edit" class="btn btn-warning btn-sm">
+                <a href="/articulo/{{ $articulo->id }}/edit" class="btn btn-warning btn-sm">
                     Editar
                 </a>
             </td>
 
             <td>
-                <form action="/articulos/{{ $articulo->id }}" method="POST">
+                <form action="/articulo/{{ $articulo->id }}" method="POST">
                     @csrf
                     @method('DELETE')
                     <button type="submit" class="btn btn-danger btn-sm">

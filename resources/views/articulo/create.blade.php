@@ -12,7 +12,7 @@
 
 <h1>Crear Artículo</h1>
 
-<form action="/articulos" method="POST">
+<form action="/articulo" method="POST">
     @csrf
 
     <fieldset>

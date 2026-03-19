@@ -11,7 +11,8 @@ class ControllerArticulo extends Controller
      */
     public function index()
     {
-        //
+        $articulo = Articulo::all();
+        return view('articulo.index')->with('articulo', $articulo);
     }
 
     /**
@@ -19,7 +20,7 @@ class ControllerArticulo extends Controller
      */
     public function create()
     {
-        //
+        return view('articulo.create');
     }
 
     /**
@@ -27,7 +28,12 @@ class ControllerArticulo extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $articulo = new Articulo();
+        $articulo->titulo = $request->get('titulo');
+        $articulo->contenido = $request->get('contenido');
+        $articulo->save();
+
+        return redirect('/articulo');
     }
 
     /**
@@ -35,7 +41,8 @@ class ControllerArticulo extends Controller
      */
     public function show(string $id)
     {
-        //
+        $articulo = Articulo::find($id);
+        return view('articulo.delete')->with('articulo', $articulo);
     }
 
     /**
@@ -43,7 +50,8 @@ class ControllerArticulo extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $articulo = Articulo::find($id);
+        return view('articulo.edit')->with('articulo', $articulo);
     }
 
     /**
@@ -51,7 +59,11 @@ class ControllerArticulo extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $articulo = Articulo::find($id);
+        $articulo->titulo = $request->get('titulo');
+        $articulo->contenido = $request->get('contenido');
+        $articulo->save();
+        return redirect('/articulo');
     }
 
     /**
@@ -59,6 +71,8 @@ class ControllerArticulo extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $articulo = Articulo::find($id);
+        $articulo->delete();
+        return redirect('/articulo');
     }
 }

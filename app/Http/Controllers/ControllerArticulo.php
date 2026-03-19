@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Articulo;
+
 use Illuminate\Http\Request;
 
 class ControllerArticulo extends Controller
@@ -11,8 +13,8 @@ class ControllerArticulo extends Controller
      */
     public function index()
     {
-        $articulo = Articulo::all();
-        return view('articulo.index')->with('articulo', $articulo);
+        $articulos = Articulo::all();
+        return view('articulo.index')->with('articulos', $articulos);
     }
 
     /**
@@ -28,10 +30,10 @@ class ControllerArticulo extends Controller
      */
     public function store(Request $request)
     {
-        $articulo = new Articulo();
-        $articulo->titulo = $request->get('titulo');
-        $articulo->contenido = $request->get('contenido');
-        $articulo->save();
+        $articulos = new Articulo();
+        $articulos->titulo = $request->get('titulo');
+        $articulos->contenido = $request->get('contenido');
+        $articulos->save();
 
         return redirect('/articulo');
     }
@@ -41,8 +43,8 @@ class ControllerArticulo extends Controller
      */
     public function show(string $id)
     {
-        $articulo = Articulo::find($id);
-        return view('articulo.delete')->with('articulo', $articulo);
+        $articulos = Articulo::find($id);
+        return view('articulo.delete')->with('articulos', $articulos);
     }
 
     /**
@@ -50,8 +52,8 @@ class ControllerArticulo extends Controller
      */
     public function edit(string $id)
     {
-        $articulo = Articulo::find($id);
-        return view('articulo.edit')->with('articulo', $articulo);
+        $articulos = Articulo::find($id);
+        return view('articulo.edit')->with('articulos', $articulos);
     }
 
     /**
@@ -59,10 +61,10 @@ class ControllerArticulo extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $articulo = Articulo::find($id);
-        $articulo->titulo = $request->get('titulo');
-        $articulo->contenido = $request->get('contenido');
-        $articulo->save();
+        $articulos = Articulo::find($id);
+        $articulos->titulo = $request->get('titulo');
+        $articulos->contenido = $request->get('contenido');
+        $articulos->save();
         return redirect('/articulo');
     }
 
@@ -71,8 +73,8 @@ class ControllerArticulo extends Controller
      */
     public function destroy(string $id)
     {
-        $articulo = Articulo::find($id);
-        $articulo->delete();
+        $articulos = Articulo::find($id);
+        $articulos->delete();
         return redirect('/articulo');
     }
 }

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Revista;
+
 use Illuminate\Http\Request;
 
 class ControllerRevista extends Controller
@@ -11,7 +13,8 @@ class ControllerRevista extends Controller
      */
     public function index()
     {
-        //
+        $revistas = Revista::all();
+        return view('revista.index')->with('revistas', $revistas);
     }
 
     /**
@@ -19,7 +22,7 @@ class ControllerRevista extends Controller
      */
     public function create()
     {
-        //
+        return view('revista.create');
     }
 
     /**
@@ -27,7 +30,12 @@ class ControllerRevista extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $revistas = new Revista();
+        $revistas->nombre = $request->get('nombre');
+        $revistas->descripcion = $request->get('descripcion');
+        $revistas->save();
+
+        return redirect('/revista');
     }
 
     /**
@@ -35,7 +43,8 @@ class ControllerRevista extends Controller
      */
     public function show(string $id)
     {
-        //
+        $revistas = Revista::find($id);
+        return view('revista.delete')->with('revistas', $revistas);
     }
 
     /**
@@ -43,7 +52,8 @@ class ControllerRevista extends Controller
      */
     public function edit(string $id)
     {
-        //
+        $revistas = Revista::find($id);
+        return view('revista.edit')->with('revistas', $revistas);
     }
 
     /**
@@ -51,7 +61,11 @@ class ControllerRevista extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        $revistas = Revista::find($id);
+        $revistas->nombre = $request->get('nombre');
+        $revistas->descripcion = $request->get('descripcion');
+        $revistas->save();
+        return redirect('/revista');
     }
 
     /**
@@ -59,6 +73,8 @@ class ControllerRevista extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        $revistas = Revista::find($id);
+        $revistas->delete();
+        return redirect('/revista');
     }
 }

@@ -12,8 +12,7 @@ class RevistaController extends Controller
      */
     public function index()
     {
-        //
-         $revistas = Revista::all();
+        $revistas = Revista::all();
         return view('revista.index')->with('resultado', $revistas);
     }
 
@@ -22,7 +21,6 @@ class RevistaController extends Controller
      */
     public function create()
     {
-        //
         return view('revista.create');
     }
 
@@ -31,14 +29,14 @@ class RevistaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-         $revista = new Revista();
-        $revista->ISSN = $request->get('ISSN');
-        $revista->numero_revista = $request->get('numero_revista');
+        $revista = new Revista();
         $revista->titulo = $request->get('titulo');
-        $revista->fecha_lanzamiento = $request->get('fecha_lanzamiento');
-        $revista->categoria = $request->get('categoria');
+        $revista->issn = $request->get('issn');
+        $revista->numero = $request->get('numero');
+        $revista->anio_publicacion = $request->get('anio_publicacion');
+        $revista->activo = 1;
         $revista->save();
+
         return redirect('/revista');
     }
 
@@ -47,7 +45,6 @@ class RevistaController extends Controller
      */
     public function show(string $id)
     {
-        //
         $revista = Revista::find($id);
         return view('revista.delete')->with('revistaE', $revista);
     }
@@ -57,7 +54,6 @@ class RevistaController extends Controller
      */
     public function edit(string $id)
     {
-        //
         $revista = Revista::find($id);
         return view('revista.edit')->with('revistaE', $revista);
     }
@@ -67,14 +63,13 @@ class RevistaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
         $revista = Revista::find($id);
-        $revista->ISSN = $request->get('ISSN');
-        $revista->numero_revista = $request->get('numero_revista');
         $revista->titulo = $request->get('titulo');
-        $revista->fecha_lanzamiento = $request->get('fecha_lanzamiento');
-        $revista->categoria = $request->get('categoria');
+        $revista->issn = $request->get('issn');
+        $revista->numero = $request->get('numero');
+        $revista->anio_publicacion = $request->get('anio_publicacion');
         $revista->save();
+
         return redirect('/revista');
     }
 
@@ -83,10 +78,27 @@ class RevistaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
         $eliminado = Revista::find($id);
         $eliminado->delete();
-        return redirect('/revista');
 
+        return redirect('/revista');
+    }
+
+    /**
+     * Desactivar o activar registro.
+     */
+    public function cambiarEstado(string $id)
+    {
+        $revista = Revista::find($id);
+
+        if ($revista->activo == 1) {
+            $revista->activo = 0;
+        } else {
+            $revista->activo = 1;
+        }
+
+        $revista->save();
+
+        return redirect('/revista');
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Articulo;
 use App\Models\Revista;
-use App\Models\Autor;
 use Illuminate\Http\Request;
 
 class ArticuloController extends Controller
@@ -14,7 +13,6 @@ class ArticuloController extends Controller
      */
     public function index()
     {
-        //
         $articulos = Articulo::all();
         return view('articulo.index')->with('resultado', $articulos);
     }
@@ -24,12 +22,10 @@ class ArticuloController extends Controller
      */
     public function create()
     {
-        //
         $revistas = Revista::all();
-        $autores = Autor::all();
+
         return view('articulo.create')
-            ->with('revistas', $revistas)
-            ->with('autores', $autores);
+            ->with('revistas', $revistas);
     }
 
     /**
@@ -37,14 +33,14 @@ class ArticuloController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $articulo = new Articulo();
-        $articulo->titulo_art = $request->get('titulo_art');
+        $articulo->titulo = $request->get('titulo');
         $articulo->pag_inicio = $request->get('pag_inicio');
         $articulo->pag_fin = $request->get('pag_fin');
         $articulo->revista_id = $request->get('revista_id');
-        $articulo->autor_id = $request->get('autor_id');
+        $articulo->activo = 1;
         $articulo->save();
+
         return redirect('/articulo');
     }
 
@@ -53,7 +49,6 @@ class ArticuloController extends Controller
      */
     public function show(string $id)
     {
-        //
         $articulo = Articulo::find($id);
         return view('articulo.delete')->with('articuloE', $articulo);
     }
@@ -63,14 +58,12 @@ class ArticuloController extends Controller
      */
     public function edit(string $id)
     {
-        //
         $articulo = Articulo::find($id);
         $revistas = Revista::all();
-        $autores = Autor::all();
+
         return view('articulo.edit')
             ->with('articuloE', $articulo)
-            ->with('revistas', $revistas)
-            ->with('autores', $autores);
+            ->with('revistas', $revistas);
     }
 
     /**
@@ -78,33 +71,27 @@ class ArticuloController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
         $articulo = Articulo::find($id);
-        $articulo->titulo_art = $request->get('titulo_art');
+        $articulo->titulo = $request->get('titulo');
         $articulo->pag_inicio = $request->get('pag_inicio');
         $articulo->pag_fin = $request->get('pag_fin');
         $articulo->revista_id = $request->get('revista_id');
-        $articulo->autor_id = $request->get('autor_id');
         $articulo->save();
+
         return redirect('/articulo');
     }
 
-        public function porRevista(string $id)
+    /**
+     * Mostrar artículos por revista.
+     */
+    public function porRevista(string $id)
     {
         $revista = Revista::find($id);
         $articulos = Articulo::where('revista_id', $id)->get();
+
         return view('articulo.por_revista')
             ->with('articulos', $articulos)
             ->with('revista', $revista);
-    }
-
-     public function porAutor(string $id)
-    {
-        $autor = Autor::find($id);
-        $articulos = Articulo::where('autor_id', $id)->get();
-        return view('articulo.por_autor')
-            ->with('articulos', $articulos)
-            ->with('autor', $autor);
     }
 
     /**
@@ -112,9 +99,27 @@ class ArticuloController extends Controller
      */
     public function destroy(string $id)
     {
-        //
         $eliminado = Articulo::find($id);
         $eliminado->delete();
+
+        return redirect('/articulo');
+    }
+
+    /**
+     * Desactivar o activar registro.
+     */
+    public function cambiarEstado(string $id)
+    {
+        $articulo = Articulo::find($id);
+
+        if ($articulo->activo == 1) {
+            $articulo->activo = 0;
+        } else {
+            $articulo->activo = 1;
+        }
+
+        $articulo->save();
+
         return redirect('/articulo');
     }
 }

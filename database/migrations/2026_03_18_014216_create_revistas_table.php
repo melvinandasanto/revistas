@@ -10,12 +10,15 @@ return new class extends Migration
     {
         Schema::create('revistas', function (Blueprint $table) {
             $table->id();
-            $table->string('ISSN', 20)->unique();
-            $table->integer('numero_revista');
             $table->string('titulo', 150);
-            $table->date('fecha_lanzamiento');
-            $table->string('categoria', 100);
+            $table->string('issn', 20);
+            $table->integer('numero');
+            $table->year('anio_publicacion');
+            $table->boolean('activo')->default(true);
+            $table->softDeletes();
             $table->timestamps();
+
+            $table->unique(['issn', 'numero', 'anio_publicacion']);
         });
     }
 

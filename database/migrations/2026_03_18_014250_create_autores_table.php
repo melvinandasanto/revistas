@@ -10,9 +10,11 @@ return new class extends Migration
     {
         Schema::create('autores', function (Blueprint $table) {
             $table->id();
-            $table->string('nombre', 100);
-            $table->string('apellido', 100);
+            $table->string('nombre', 150);
             $table->string('correo', 150)->unique();
+            $table->string('adscripcion', 150);
+            $table->boolean('activo')->default(true);
+            $table->softDeletes();
             $table->timestamps();
         });
     }

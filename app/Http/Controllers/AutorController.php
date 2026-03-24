@@ -12,8 +12,7 @@ class AutorController extends Controller
      */
     public function index()
     {
-        //
-         $autores = Autor::all();
+        $autores = Autor::all();
         return view('autor.index')->with('resultado', $autores);
     }
 
@@ -22,7 +21,6 @@ class AutorController extends Controller
      */
     public function create()
     {
-        //
         return view('autor.create');
     }
 
@@ -31,12 +29,13 @@ class AutorController extends Controller
      */
     public function store(Request $request)
     {
-        //
         $autor = new Autor();
         $autor->nombre = $request->get('nombre');
-        $autor->apellido = $request->get('apellido');
         $autor->correo = $request->get('correo');
+        $autor->adscripcion = $request->get('adscripcion');
+        $autor->activo = 1;
         $autor->save();
+
         return redirect('/autor');
     }
 
@@ -45,7 +44,6 @@ class AutorController extends Controller
      */
     public function show(string $id)
     {
-        //
         $autor = Autor::find($id);
         return view('autor.delete')->with('autorE', $autor);
     }
@@ -55,7 +53,6 @@ class AutorController extends Controller
      */
     public function edit(string $id)
     {
-        //
         $autor = Autor::find($id);
         return view('autor.edit')->with('autorE', $autor);
     }
@@ -65,12 +62,12 @@ class AutorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
         $autor = Autor::find($id);
         $autor->nombre = $request->get('nombre');
-        $autor->apellido = $request->get('apellido');
         $autor->correo = $request->get('correo');
+        $autor->adscripcion = $request->get('adscripcion');
         $autor->save();
+
         return redirect('/autor');
     }
 
@@ -79,9 +76,40 @@ class AutorController extends Controller
      */
     public function destroy(string $id)
     {
-        //
         $eliminado = Autor::find($id);
         $eliminado->delete();
+
         return redirect('/autor');
+    }
+
+    /**
+     * Desactivar o activar registro.
+     */
+    public function cambiarEstado(string $id)
+    {
+        $autor = Autor::find($id);
+
+        if ($autor->activo == 1) {
+            $autor->activo = 0;
+        } else {
+            $autor->activo = 1;
+        }
+
+        $autor->save();
+
+        return redirect('/autor');
+    }
+
+    /**
+     * Mostrar artículos de un autor.
+     */
+    public function porAutor(string $id)
+    {
+        $autor = Autor::find($id);
+        $asignaciones = \App\Models\ArticuloAutor::where('autor_id', $id)->get();
+
+        return view('autor.por_autor')
+            ->with('autor', $autor)
+            ->with('asignaciones', $asignaciones);
     }
 }

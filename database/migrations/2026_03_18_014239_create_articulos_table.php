@@ -10,22 +10,13 @@ return new class extends Migration
     {
         Schema::create('articulos', function (Blueprint $table) {
             $table->id();
-            $table->string('titulo_art', 150);
+            $table->string('titulo', 150)->unique();
             $table->integer('pag_inicio');
             $table->integer('pag_fin');
-            $table->unsignedBigInteger('revista_id');
-            $table->unsignedBigInteger('autor_id');
+            $table->foreignId('revista_id')->constrained('revistas')->onDelete('cascade');
+            $table->boolean('activo')->default(true);
+            $table->softDeletes();
             $table->timestamps();
-            
-            $table->foreign('revista_id')
-                  ->references('id')
-                  ->on('revistas')
-                  ->onDelete('cascade');
-                  
-            $table->foreign('autor_id')
-                  ->references('id')
-                  ->on('autores')
-                  ->onDelete('cascade');
         });
     }
 

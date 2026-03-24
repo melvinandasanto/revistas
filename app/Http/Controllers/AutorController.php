@@ -3,18 +3,18 @@
 namespace App\Http\Controllers;
 
 use App\Models\Autor;
-
 use Illuminate\Http\Request;
 
-class ControllerAutor extends Controller
+class AutorController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $autores = Autor::all();
-        return view('autor.index')->with('autores', $autores);
+        //
+         $autores = Autor::all();
+        return view('autor.index')->with('resultado', $autores);
     }
 
     /**
@@ -22,6 +22,7 @@ class ControllerAutor extends Controller
      */
     public function create()
     {
+        //
         return view('autor.create');
     }
 
@@ -30,11 +31,12 @@ class ControllerAutor extends Controller
      */
     public function store(Request $request)
     {
-        $autores = new Autor();
-        $autores->nombre = $request->get('nombre');
-        $autores->email = $request->get('email');
-        $autores->save();
-
+        //
+        $autor = new Autor();
+        $autor->nombre = $request->get('nombre');
+        $autor->apellido = $request->get('apellido');
+        $autor->correo = $request->get('correo');
+        $autor->save();
         return redirect('/autor');
     }
 
@@ -43,8 +45,9 @@ class ControllerAutor extends Controller
      */
     public function show(string $id)
     {
-        $autores = Autor::find($id);
-        return view('autor.delete')->with('autores', $autores);
+        //
+        $autor = Autor::find($id);
+        return view('autor.delete')->with('autorE', $autor);
     }
 
     /**
@@ -52,8 +55,9 @@ class ControllerAutor extends Controller
      */
     public function edit(string $id)
     {
-        $autores = Autor::find($id);
-        return view('autor.edit')->with('autores', $autores);
+        //
+        $autor = Autor::find($id);
+        return view('autor.edit')->with('autorE', $autor);
     }
 
     /**
@@ -61,10 +65,12 @@ class ControllerAutor extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $autores = Autor::find($id);
-        $autores->nombre = $request->get('nombre');
-        $autores->email = $request->get('email');
-        $autores->save();
+        //
+        $autor = Autor::find($id);
+        $autor->nombre = $request->get('nombre');
+        $autor->apellido = $request->get('apellido');
+        $autor->correo = $request->get('correo');
+        $autor->save();
         return redirect('/autor');
     }
 
@@ -73,8 +79,9 @@ class ControllerAutor extends Controller
      */
     public function destroy(string $id)
     {
-        $autores = Autor::find($id);
-        $autores->delete();
+        //
+        $eliminado = Autor::find($id);
+        $eliminado->delete();
         return redirect('/autor');
     }
 }

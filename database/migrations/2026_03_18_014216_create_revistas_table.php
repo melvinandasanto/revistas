@@ -6,25 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('revistas', function (Blueprint $table) {
             $table->id();
-            $table->string('issn')->unique();
-            $table->string('numerorevista');
-            $table->string('titulo');
-            $table->string('fecha_publicacion');
-            $table->string('categoria');
+            $table->string('ISSN', 20)->unique();
+            $table->integer('numero_revista');
+            $table->string('titulo', 150);
+            $table->date('fecha_lanzamiento');
+            $table->string('categoria', 100);
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('revistas');

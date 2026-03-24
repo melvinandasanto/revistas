@@ -3,38 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eliminar Revista</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
 </head>
+<body>
+    <h1>Eliminar Revista</h1>
+    
+    <form action="/revista/{{$revistaE->id}}" method="POST">
+        @csrf
+        @method('DELETE')
 
-<body class="container mt-5">
+        <label for="id">ID</label>
+        <input type="text" name="id" id="id" value="{{$revistaE->id}}">
 
-<h1>Eliminar Revista</h1>
+        <label for="ISSN">ISSN</label>
+        <input type="text" name="ISSN" id="ISSN" value="{{$revistaE->ISSN}}">
 
-<form action="/revista/{{ $revista->id }}" method="POST">
-    @csrf
-    @method('DELETE')
+        <label for="numero_revista">Número de Revista</label>
+        <input type="text" name="numero_revista" id="numero_revista" value="{{$revistaE->numero_revista}}">
 
-    <fieldset>
-        <legend>¿Desea eliminar esta revista?</legend>
+        <label for="titulo">Título</label>
+        <input type="text" name="titulo" id="titulo" value="{{$revistaE->titulo}}">
 
-        <div class="mb-3">
-            <label class="form-label">ISSN</label>
-            <input type="text" class="form-control" value="{{ $revista->issn }}" readonly>
-        </div>
+        <label for="fecha_lanzamiento">Fecha de Lanzamiento</label>
+        <input type="text" name="fecha_lanzamiento" id="fecha_lanzamiento" value="{{$revistaE->fecha_lanzamiento}}">
 
-        <div class="mb-3">
-            <label class="form-label">Título</label>
-            <input type="text" class="form-control" value="{{ $revista->titulo }}" readonly>
-        </div>
+        <label for="categoria">Categoría</label>
+        <input type="text" name="categoria" id="categoria" value="{{$revistaE->categoria}}">
 
-        <button type="submit" class="btn btn-danger">
-            Confirmar Eliminación
-        </button>
-    </fieldset>
-
-</form>
-
+        <button type="submit">Eliminar Revista</button>
+    </form>
 </body>
 </html>

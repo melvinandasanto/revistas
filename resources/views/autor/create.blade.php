@@ -3,42 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Autor</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
 </head>
+<body>
+    <h1>Crear Autor</h1>
 
-<body class="container mt-5">
+    <form action="/autor" method="POST">
+        @csrf
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre">
 
-<h1>Crear Autor</h1>
+        <label for="apellido">Apellido</label>
+        <input type="text" name="apellido" id="apellido">
 
-<form action="/autor" method="POST">
-    @csrf
+        <label for="correo">Correo</label>
+        <input type="text" name="correo" id="correo">
 
-    <fieldset>
-        <legend>Datos del autor</legend>
-
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Ingrese nombre">
-        </div>
-
-        <div class="mb-3">
-            <label for="apellido" class="form-label">Apellido</label>
-            <input type="text" name="apellido" id="apellido" class="form-control" placeholder="Ingrese apellido">
-        </div>
-
-        <div class="mb-3">
-            <label for="correo" class="form-label">Correo</label>
-            <input type="email" name="correo" id="correo" class="form-control" placeholder="Ingrese correo">
-        </div>
-
-        <button type="submit" class="btn btn-success">
-            Guardar Autor
-        </button>
-    </fieldset>
-
-</form>
-
+        <button type="submit">Guardar Autor</button>
+    </form>
 </body>
 </html>

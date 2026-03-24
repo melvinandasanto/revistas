@@ -6,7 +6,7 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>Lista de Artículos</h1>
+    <h1>Artículos de la Revista: {{ $revista->titulo }} (ISSN: {{ $revista->ISSN }})</h1>
     <a href="/articulo/create">Crear Artículo</a>
     <table>
         <thead>
@@ -15,20 +15,18 @@
                 <td>Título</td>
                 <td>Página Inicio</td>
                 <td>Página Fin</td>
-                <td>ID Revista</td>
                 <td>ID Autor</td>
                 <td>Editar</td>
                 <td>Eliminar</td>
             </tr>
         </thead>
         <tbody>
-            @foreach($resultado as $articulo)
+            @foreach($articulos as $articulo)
             <tr>
                 <td>{{ $articulo->id }}</td>
                 <td>{{ $articulo->titulo_art }}</td>
                 <td>{{ $articulo->pag_inicio }}</td>
                 <td>{{ $articulo->pag_fin }}</td>
-                <td>{{ $articulo->revista_id }}</td>
                 <td>{{ $articulo->autor_id }}</td>
                 <td><a href="/articulo/{{ $articulo->id }}/edit">Editar</a></td>
                 <td><a href="/articulo/{{ $articulo->id }}">Eliminar</a></td>
@@ -37,8 +35,6 @@
         </tbody>
     </table> 
     <br>
-    <a href="/revista">Volver a Revistas</a> | <a href="/autor">Volver a Autores</a>
-    <br>
-    <a href="/">Volver al Menú</a>
+    <a href="/revista">Volver a Revistas</a>
 </body>
 </html>

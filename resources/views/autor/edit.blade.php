@@ -3,43 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Autor</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
 </head>
+<body>
+    <h1>Editar Autor</h1>
 
-<body class="container mt-5">
+    <form action="/autor/{{$autorE->id}}" method="POST">
+        @csrf
+        @method('PUT')
 
-<h1>Editar Autor</h1>
+        <label for="id">ID</label>
+        <input type="text" name="id" id="id" value="{{$autorE->id}}">
 
-<form action="/autor/{{ $autor->id }}" method="POST">
-    @csrf
-    @method('PUT')
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre" value="{{$autorE->nombre}}">
 
-    <fieldset>
-        <legend>Datos del autor</legend>
+        <label for="apellido">Apellido</label>
+        <input type="text" name="apellido" id="apellido" value="{{$autorE->apellido}}">
 
-        <div class="mb-3">
-            <label for="nombre" class="form-label">Nombre</label>
-            <input type="text" name="nombre" id="nombre" class="form-control" value="{{ $autor->nombre }}">
-        </div>
+        <label for="correo">Correo</label>
+        <input type="text" name="correo" id="correo" value="{{$autorE->correo}}">
 
-        <div class="mb-3">
-            <label for="apellido" class="form-label">Apellido</label>
-            <input type="text" name="apellido" id="apellido" class="form-control" value="{{ $autor->apellido }}">
-        </div>
-
-        <div class="mb-3">
-            <label for="correo" class="form-label">Correo</label>
-            <input type="email" name="correo" id="correo" class="form-control" value="{{ $autor->correo }}">
-        </div>
-
-        <button type="submit" class="btn btn-warning">
-            Actualizar Autor
-        </button>
-    </fieldset>
-
-</form>
-
+        <button type="submit">Actualizar Autor</button>
+    </form>
 </body>
 </html>

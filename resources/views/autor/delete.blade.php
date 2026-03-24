@@ -3,38 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eliminar Autor</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
 </head>
+<body>
+    <h1>Eliminar Autor</h1>
+    
+    <form action="/autor/{{$autorE->id}}" method="POST">
+        @csrf
+        @method('DELETE')
 
-<body class="container mt-5">
+        <label for="id">ID</label>
+        <input type="text" name="id" id="id" value="{{$autorE->id}}">
 
-<h1>Eliminar Autor</h1>
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre" value="{{$autorE->nombre}}">
 
-<form action="/autor/{{ $autor->id }}" method="POST">
-    @csrf
-    @method('DELETE')
+        <label for="apellido">Apellido</label>
+        <input type="text" name="apellido" id="apellido" value="{{$autorE->apellido}}">
 
-    <fieldset>
-        <legend>¿Desea eliminar este autor?</legend>
+        <label for="correo">Correo</label>
+        <input type="text" name="correo" id="correo" value="{{$autorE->correo}}">
 
-        <div class="mb-3">
-            <label class="form-label">Nombre</label>
-            <input type="text" class="form-control" value="{{ $autor->nombre }}" readonly>
-        </div>
-
-        <div class="mb-3">
-            <label class="form-label">Correo</label>
-            <input type="text" class="form-control" value="{{ $autor->correo }}" readonly>
-        </div>
-
-        <button type="submit" class="btn btn-danger">
-            Confirmar Eliminación
-        </button>
-    </fieldset>
-
-</form>
-
+        <button type="submit">Eliminar Autor</button>
+    </form>
 </body>
 </html>

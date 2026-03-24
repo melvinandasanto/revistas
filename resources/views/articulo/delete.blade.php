@@ -3,38 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Eliminar Artículo</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
 </head>
+<body>
+    <h1>Eliminar Artículo</h1>
+    
+    <form action="/articulo/{{$articuloE->id}}" method="POST">
+        @csrf
+        @method('DELETE')
 
-<body class="container mt-5">
+        <label for="id">ID</label>
+        <input type="text" name="id" id="id" value="{{$articuloE->id}}">
 
-<h1>Eliminar Artículo</h1>
+        <label for="titulo_art">Título</label>
+        <input type="text" name="titulo_art" id="titulo_art" value="{{$articuloE->titulo_art}}">
 
-<form action="/articulo/{{ $articulo->id }}" method="POST">
-    @csrf
-    @method('DELETE')
+        <label for="pag_inicio">Página Inicio</label>
+        <input type="text" name="pag_inicio" id="pag_inicio" value="{{$articuloE->pag_inicio}}">
 
-    <fieldset>
-        <legend>¿Desea eliminar este artículo?</legend>
+        <label for="pag_fin">Página Fin</label>
+        <input type="text" name="pag_fin" id="pag_fin" value="{{$articuloE->pag_fin}}">
 
-        <div class="mb-3">
-            <label class="form-label">Título</label>
-            <input type="text" class="form-control" value="{{ $articulo->titulo }}" readonly>
-        </div>
+        <label for="revista_id">ID Revista</label>
+        <input type="text" name="revista_id" id="revista_id" value="{{$articuloE->revista_id}}">
 
-        <div class="mb-3">
-            <label class="form-label">ISSN</label>
-            <input type="text" class="form-control" value="{{ $articulo->issn }}" readonly>
-        </div>
+        <label for="autor_id">ID Autor</label>
+        <input type="text" name="autor_id" id="autor_id" value="{{$articuloE->autor_id}}">
 
-        <button type="submit" class="btn btn-danger">
-            Confirmar Eliminación
-        </button>
-    </fieldset>
-
-</form>
-
+        <button type="submit">Eliminar Artículo</button>
+    </form>
 </body>
 </html>

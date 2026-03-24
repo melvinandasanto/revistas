@@ -3,47 +3,39 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Artículo</title>
-
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Document</title>
 </head>
+<body>
+    <h1>Crear Artículo</h1>
 
-<body class="container mt-5">
+    <form action="/articulo" method="POST">
+        @csrf
+        <label for="titulo_art">Título del Artículo</label>
+        <input type="text" name="titulo_art" id="titulo_art">
 
-<h1>Crear Artículo</h1>
+        <label for="pag_inicio">Página Inicio</label>
+        <input type="text" name="pag_inicio" id="pag_inicio">
 
-<form action="/articulo" method="POST">
-    @csrf
+        <label for="pag_fin">Página Fin</label>
+        <input type="text" name="pag_fin" id="pag_fin">
 
-    <fieldset>
-        <legend>Datos del artículo</legend>
+        <label for="revista_id">Revista</label>
+        <select name="revista_id" id="revista_id">
+            <option value="">-- Seleccione Revista --</option>
+            @foreach($revistas as $revista)
+            <option value="{{ $revista->id }}">{{ $revista->titulo }} (ISSN: {{ $revista->ISSN }})</option>
+            @endforeach
+        </select>
 
-        <div class="mb-3">
-            <label for="titulo" class="form-label">Título</label>
-            <input type="text" name="titulo" id="titulo" class="form-control" placeholder="Ingrese título">
-        </div>
+        <label for="autor_id">Autor</label>
+        <select name="autor_id" id="autor_id">
+            <option value="">-- Seleccione Autor --</option>
+            @foreach($autores as $autor)
+            <option value="{{ $autor->id }}">{{ $autor->nombre }} {{ $autor->apellido }}</option>
+            @endforeach
+        </select>
 
-        <div class="mb-3">
-            <label for="paginainicio" class="form-label">Página Inicio</label>
-            <input type="text" name="paginainicio" id="paginainicio" class="form-control" placeholder="Ingrese página inicio">
-        </div>
-
-        <div class="mb-3">
-            <label for="paginafin" class="form-label">Página Fin</label>
-            <input type="text" name="paginafin" id="paginafin" class="form-control" placeholder="Ingrese página fin">
-        </div>
-
-        <div class="mb-3">
-            <label for="issn" class="form-label">ISSN</label>
-            <input type="text" name="issn" id="issn" class="form-control" placeholder="Ingrese ISSN">
-        </div>
-
-        <button type="submit" class="btn btn-success">
-            Guardar Artículo
-        </button>
-    </fieldset>
-
-</form>
-
+        <button type="submit">Guardar Artículo</button>
+    </form>
 </body>
 </html>

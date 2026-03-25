@@ -19,6 +19,9 @@
         <label for="correo">Correo</label>
         <input type="text" name="correo" id="correo">
 
+        <label for="adscripcion">Adscripcion</label>
+        <input type="text" name="adscripcion" id="adscripcion">
+
         <button type="submit">Guardar Autor</button>
     </form>
 </body>

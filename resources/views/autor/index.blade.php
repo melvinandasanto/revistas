@@ -29,7 +29,7 @@
                 <td>{{ $autor->correo }}</td>
                 <td>{{ $autor->adscripcion }}</td>
                 <td><a href="/autor/{{ $autor->id }}/edit">Editar</a></td>
-                <td><a href="/autor/{{ $autor->id }}">Eliminar</a></td>
+                <td><a href="/autor/{{ $autor->id }}/deactivate">Desactivar</a></td>
                 <td><a href="/articulo/autor/{{ $autor->id }}">Ver Artículos</a></td>
             </tr>
             @endforeach

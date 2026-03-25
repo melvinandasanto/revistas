@@ -14,6 +14,9 @@ Route::resource('/revista', RevistaController::class);
 Route::resource('/autor', AutorController::class);
 Route::resource('/articulo', ArticuloController::class);
 
+Route::get('autor/deactivate/{id}', [AutorController::class, 'deactivate']);
+Route::put('autor/cambiarEstado/{id}', [AutorController::class, 'cambiarEstado']);
+
 
 Route::get('/articulo/revista/{id}', [ArticuloController::class, 'porRevista']);
 Route::get('/articulo/autor/{id}', [ArticuloController::class, 'porAutor']);

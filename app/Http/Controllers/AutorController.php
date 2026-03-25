@@ -82,6 +82,12 @@ class AutorController extends Controller
         return redirect('/autor');
     }
 
+    public function deactivate(string $id)
+    {
+        $autor = Autor::find($id);
+        return view('autor.deactivate')->with('autorE', $autor);
+    }
+
     /**
      * Desactivar o activar registro.
      */

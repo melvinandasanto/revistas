@@ -19,4 +19,4 @@ Route::put('autor/cambiarEstado/{id}', [AutorController::class, 'cambiarEstado']
 
 
 Route::get('/articulo/revista/{id}', [ArticuloController::class, 'porRevista']);
-Route::get('/articulo/autor/{id}', [ArticuloController::class, 'porAutor']);
+Route::get('autor/porAutor/{id}', [AutorController::class, 'porAutor']);

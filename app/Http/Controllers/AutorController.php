@@ -112,7 +112,10 @@ class AutorController extends Controller
     public function porAutor(string $id)
     {
         $autor = Autor::find($id);
-        $asignaciones = \App\Models\ArticuloAutor::where('autor_id', $id)->get();
+        $asignaciones = \App\Models\Articulo_Autor::where('autor_id', $id)
+            ->with('articulo')
+            ->orderBy('posicion')
+            ->get();
 
         return view('autor.por_autor')
             ->with('autor', $autor)

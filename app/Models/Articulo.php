@@ -30,6 +30,11 @@ class Articulo extends Model
         return $this->belongsTo(Revista::class, 'revista_id');
     }
 
+    public function articuloAutores()
+    {
+        return $this->hasMany(Articulo_Autor::class, 'articulo_id');
+    }
+
     public function autores()
     {
         return $this->belongsToMany(Autor::class, 'articulo_autor', 'articulo_id', 'autor_id')

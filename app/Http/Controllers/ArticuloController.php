@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Articulo;
 use App\Models\Revista;
+use App\Models\Autor;
+use App\Models\Articulo_Autor;
 use Illuminate\Http\Request;
 
 class ArticuloController extends Controller
@@ -13,7 +15,7 @@ class ArticuloController extends Controller
      */
     public function index()
     {
-        $articulos = Articulo::all();
+        $articulos = Articulo::with(['revista', 'articuloAutores.autor'])->get();
         return view('articulo.index')->with('resultado', $articulos);
     }
 
@@ -23,9 +25,11 @@ class ArticuloController extends Controller
     public function create()
     {
         $revistas = Revista::all();
+        $autores = Autor::all();
 
         return view('articulo.create')
-            ->with('revistas', $revistas);
+            ->with('revistas', $revistas)
+            ->with('autores', $autores);
     }
 
     /**
@@ -40,6 +44,25 @@ class ArticuloController extends Controller
         $articulo->revista_id = $request->get('revista_id');
         $articulo->activo = 1;
         $articulo->save();
+
+        $autores = $request->get('autores');
+
+        if ($autores != null) {
+            $posicion = 1;
+
+            foreach ($autores as $autorId) {
+                if ($autorId != "") {
+                    $articuloAutor = new Articulo_Autor();
+                    $articuloAutor->articulo_id = $articulo->id;
+                    $articuloAutor->autor_id = $autorId;
+                    $articuloAutor->posicion = $posicion;
+                    $articuloAutor->activo = 1;
+                    $articuloAutor->save();
+
+                    $posicion++;
+                }
+            }
+        }
 
         return redirect('/articulo');
     }
@@ -60,10 +83,16 @@ class ArticuloController extends Controller
     {
         $articulo = Articulo::find($id);
         $revistas = Revista::all();
+        $autores = Autor::all();
+        $asignaciones = Articulo_Autor::where('articulo_id', $id)
+            ->orderBy('posicion')
+            ->get();
 
         return view('articulo.edit')
             ->with('articuloE', $articulo)
-            ->with('revistas', $revistas);
+            ->with('revistas', $revistas)
+            ->with('autores', $autores)
+            ->with('asignaciones', $asignaciones);
     }
 
     /**
@@ -77,6 +106,27 @@ class ArticuloController extends Controller
         $articulo->pag_fin = $request->get('pag_fin');
         $articulo->revista_id = $request->get('revista_id');
         $articulo->save();
+
+        Articulo_Autor::where('articulo_id', $id)->delete();
+
+        $autores = $request->get('autores');
+
+        if ($autores != null) {
+            $posicion = 1;
+
+            foreach ($autores as $autorId) {
+                if ($autorId != "") {
+                    $articuloAutor = new Articulo_Autor();
+                    $articuloAutor->articulo_id = $articulo->id;
+                    $articuloAutor->autor_id = $autorId;
+                    $articuloAutor->posicion = $posicion;
+                    $articuloAutor->activo = 1;
+                    $articuloAutor->save();
+
+                    $posicion++;
+                }
+            }
+        }
 
         return redirect('/articulo');
     }

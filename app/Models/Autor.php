@@ -33,4 +33,9 @@ class Autor extends Model
     {
         return $query->where('activo', true);
     }
+
+    public function articuloAutores()
+    {
+        return $this->hasMany(ArticuloAutor::class, 'autor_id');
+    }
 }

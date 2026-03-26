@@ -15,20 +15,19 @@
         <label for="id">ID</label>
         <input type="text" name="id" id="id" value="{{$revistaE->id}}">
 
-        <label for="ISSN">ISSN</label>
-        <input type="text" name="ISSN" id="ISSN" value="{{$revistaE->ISSN}}">
+        <label for="issn">ISSN</label>
+        <input type="text" name="issn" id="issn" value="{{$revistaE->issn}}">
 
-        <label for="numero_revista">Número de Revista</label>
-        <input type="text" name="numero_revista" id="numero_revista" value="{{$revistaE->numero_revista}}">
+        <label for="numero">Número de Revista</label>
+        <input type="text" name="numero" id="numero" value="{{$revistaE->numero}}">
 
         <label for="titulo">Título</label>
         <input type="text" name="titulo" id="titulo" value="{{$revistaE->titulo}}">
 
-        <label for="fecha_lanzamiento">Fecha de Lanzamiento</label>
-        <input type="text" name="fecha_lanzamiento" id="fecha_lanzamiento" value="{{$revistaE->fecha_lanzamiento}}">
+        <label for="anio_publicacion">Año de Publicación</label>
+        <input type="text" name="anio_publicacion" id="anio_publicacion" value="{{$revistaE->anio_publicacion}}">
 
-        <label for="categoria">Categoría</label>
-        <input type="text" name="categoria" id="categoria" value="{{$revistaE->categoria}}">
+       
 
         <button type="submit">Actualizar Revista</button>
     </form>

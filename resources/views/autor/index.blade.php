@@ -13,7 +13,6 @@
             <tr>
                 <td>Id</td>
                 <td>Nombre</td>
-                <td>Apellido</td>
                 <td>Correo</td>
                 <td>Editar</td>
                 <td>Eliminar</td>

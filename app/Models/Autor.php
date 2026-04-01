@@ -36,6 +36,6 @@ class Autor extends Model
 
     public function articuloAutores()
     {
-        return $this->hasMany(ArticuloAutor::class, 'autor_id');
+        return $this->hasMany(Articulo_Autor::class, 'autor_id');
     }
 }

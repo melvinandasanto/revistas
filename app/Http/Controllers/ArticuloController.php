@@ -24,12 +24,12 @@ class ArticuloController extends Controller
      */
     public function create()
     {
-        $revistas = Revista::all();
-        $autores = Autor::all();
+        $revistas = Revista::where('activo', 1)->get(); // Solo revistas activas
+    $autores = Autor::where('activo', 1)->get(); // Solo autores activos
 
-        return view('articulo.create')
-            ->with('revistas', $revistas)
-            ->with('autores', $autores);
+    return view('articulo.create')
+        ->with('revistas', $revistas)
+        ->with('autores', $autores);
     }
 
     /**
@@ -81,18 +81,16 @@ class ArticuloController extends Controller
      */
     public function edit(string $id)
     {
-        $articulo = Articulo::find($id);
-        $revistas = Revista::all();
-        $autores = Autor::all();
-        $asignaciones = Articulo_Autor::where('articulo_id', $id)
-            ->orderBy('posicion')
-            ->get();
+         $articulo = Articulo::with(['revista', 'autores'])->find($id);
+    $revistas = Revista::where('activo', 1)->get();
+    $autores = Autor::where('activo', 1)->get();
+    $asignaciones = $articulo->autores;
 
-        return view('articulo.edit')
-            ->with('articuloE', $articulo)
-            ->with('revistas', $revistas)
-            ->with('autores', $autores)
-            ->with('asignaciones', $asignaciones);
+    return view('articulo.edit')
+        ->with('articuloE', $articulo)
+        ->with('revistas', $revistas)
+        ->with('autores', $autores)
+        ->with('asignaciones', $asignaciones);
     }
 
     /**

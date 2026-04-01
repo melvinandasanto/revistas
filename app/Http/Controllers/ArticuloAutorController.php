@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ArticuloAutor;
+use App\Models\Articulo_Autor;
 use App\Models\Articulo;
 use App\Models\Autor;
 use Illuminate\Http\Request;
@@ -29,7 +29,7 @@ class ArticuloAutorController extends Controller
      */
     public function store(Request $request)
     {
-        $articuloAutor = new ArticuloAutor();
+        $articuloAutor = new Articulo_Autor();
         $articuloAutor->articulo_id = $request->get('articulo_id');
         $articuloAutor->autor_id = $request->get('autor_id');
         $articuloAutor->posicion = $request->get('posicion');
@@ -44,7 +44,7 @@ class ArticuloAutorController extends Controller
      */
     public function edit(string $id)
     {
-        $asignacion = ArticuloAutor::find($id);
+        $asignacion = Articulo_Autor::find($id);
         $autores = Autor::all();
 
         return view('articulo_autor.edit')
@@ -57,7 +57,7 @@ class ArticuloAutorController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $asignacion = ArticuloAutor::find($id);
+        $asignacion = Articulo_Autor::find($id);
         $asignacion->autor_id = $request->get('autor_id');
         $asignacion->posicion = $request->get('posicion');
         $asignacion->save();
@@ -70,7 +70,7 @@ class ArticuloAutorController extends Controller
      */
     public function destroy(string $id)
     {
-        $eliminado = ArticuloAutor::find($id);
+        $eliminado = Articulo_Autor::find($id);
         $articuloId = $eliminado->articulo_id;
         $eliminado->delete();
 
@@ -82,7 +82,7 @@ class ArticuloAutorController extends Controller
      */
     public function cambiarEstado(string $id)
     {
-        $asignacion = ArticuloAutor::find($id);
+        $asignacion = Articulo_Autor::find($id);
 
         if ($asignacion->activo == 1) {
             $asignacion->activo = 0;

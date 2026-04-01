@@ -34,10 +34,10 @@ class RevistaController extends Controller
         $revista->issn = $request->get('issn');
         $revista->numero = $request->get('numero');
         $revista->anio_publicacion = $request->get('anio_publicacion');
-        $revista->activo = 1;
+        $revista->activo = 1; // Activado por defecto
         $revista->save();
 
-        return redirect('/revista');
+        return redirect('/revista')->with('success', 'Revista creada exitosamente');
     }
 
     /**
@@ -70,7 +70,7 @@ class RevistaController extends Controller
         $revista->anio_publicacion = $request->get('anio_publicacion');
         $revista->save();
 
-        return redirect('/revista');
+        return redirect('/revista')->with('success', 'Revista actualizada exitosamente');
     }
 
     /**
@@ -81,7 +81,16 @@ class RevistaController extends Controller
         $eliminado = Revista::find($id);
         $eliminado->delete();
 
-        return redirect('/revista');
+        return redirect('/revista')->with('success', 'Revista eliminada exitosamente');
+    }
+
+    /**
+     * Show form to change status
+     */
+    public function deactivate(string $id)
+    {
+        $revista = Revista::find($id);
+        return view('revista.deactivate')->with('revistaE', $revista);
     }
 
     /**
@@ -90,15 +99,17 @@ class RevistaController extends Controller
     public function cambiarEstado(string $id)
     {
         $revista = Revista::find($id);
-
+        
         if ($revista->activo == 1) {
             $revista->activo = 0;
+            $mensaje = 'Revista desactivada exitosamente';
         } else {
             $revista->activo = 1;
+            $mensaje = 'Revista activada exitosamente';
         }
-
+        
         $revista->save();
-
-        return redirect('/revista');
+        
+        return redirect('/revista')->with('success', $mensaje);
     }
 }

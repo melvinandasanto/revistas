@@ -12,6 +12,7 @@ class AutorController extends Controller
      */
     public function index()
     {
+        // Mostrar todos los autores (incluyendo inactivos)
         $autores = Autor::all();
         return view('autor.index')->with('resultado', $autores);
     }
@@ -33,10 +34,10 @@ class AutorController extends Controller
         $autor->nombre = $request->get('nombre');
         $autor->correo = $request->get('correo');
         $autor->adscripcion = $request->get('adscripcion');
-        $autor->activo = 1;
+        $autor->activo = 1; // Activado por defecto
         $autor->save();
 
-        return redirect('/autor');
+        return redirect('/autor')->with('success', 'Autor creado exitosamente');
     }
 
     /**
@@ -68,7 +69,7 @@ class AutorController extends Controller
         $autor->adscripcion = $request->get('adscripcion');
         $autor->save();
 
-        return redirect('/autor');
+        return redirect('/autor')->with('success', 'Autor actualizado exitosamente');
     }
 
     /**
@@ -79,9 +80,12 @@ class AutorController extends Controller
         $eliminado = Autor::find($id);
         $eliminado->delete();
 
-        return redirect('/autor');
+        return redirect('/autor')->with('success', 'Autor eliminado exitosamente');
     }
 
+    /**
+     * Show form to change status
+     */
     public function deactivate(string $id)
     {
         $autor = Autor::find($id);
@@ -94,29 +98,43 @@ class AutorController extends Controller
     public function cambiarEstado(string $id)
     {
         $autor = Autor::find($id);
-
+        
         if ($autor->activo == 1) {
             $autor->activo = 0;
+            $mensaje = 'Autor desactivado exitosamente';
         } else {
             $autor->activo = 1;
+            $mensaje = 'Autor activado exitosamente';
         }
-
+        
         $autor->save();
-
-        return redirect('/autor');
+        
+        return redirect('/autor')->with('success', $mensaje);
     }
 
     /**
-     * Mostrar artículos de un autor.
+     * Mostrar artículos de un autor (solo autores activos)
      */
     public function porAutor(string $id)
     {
         $autor = Autor::find($id);
+        
+        // Verificar si el autor existe
+        if (!$autor) {
+            return redirect('/autor')->with('error', 'Autor no encontrado');
+        }
+        
+        // Obtener solo asignaciones de artículos activos
         $asignaciones = \App\Models\Articulo_Autor::where('autor_id', $id)
-            ->with('articulo')
+            ->whereHas('articulo', function($query) {
+                $query->where('activo', 1);
+            })
+            ->with(['articulo' => function($query) {
+                $query->where('activo', 1);
+            }])
             ->orderBy('posicion')
             ->get();
-
+            
         return view('autor.por_autor')
             ->with('autor', $autor)
             ->with('asignaciones', $asignaciones);

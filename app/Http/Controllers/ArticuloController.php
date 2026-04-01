@@ -15,6 +15,7 @@ class ArticuloController extends Controller
      */
     public function index()
     {
+        // Mostrar todos los artículos con sus relaciones
         $articulos = Articulo::with(['revista', 'articuloAutores.autor'])->get();
         return view('articulo.index')->with('resultado', $articulos);
     }
@@ -24,12 +25,13 @@ class ArticuloController extends Controller
      */
     public function create()
     {
-        $revistas = Revista::where('activo', 1)->get(); // Solo revistas activas
-    $autores = Autor::where('activo', 1)->get(); // Solo autores activos
+        // Solo mostrar revistas y autores ACTIVOS
+        $revistas = Revista::where('activo', 1)->get();
+        $autores = Autor::where('activo', 1)->get();
 
-    return view('articulo.create')
-        ->with('revistas', $revistas)
-        ->with('autores', $autores);
+        return view('articulo.create')
+            ->with('revistas', $revistas)
+            ->with('autores', $autores);
     }
 
     /**
@@ -52,19 +54,22 @@ class ArticuloController extends Controller
 
             foreach ($autores as $autorId) {
                 if ($autorId != "") {
-                    $articuloAutor = new Articulo_Autor();
-                    $articuloAutor->articulo_id = $articulo->id;
-                    $articuloAutor->autor_id = $autorId;
-                    $articuloAutor->posicion = $posicion;
-                    $articuloAutor->activo = 1;
-                    $articuloAutor->save();
-
-                    $posicion++;
+                    // Verificar que el autor esté activo
+                    $autor = Autor::find($autorId);
+                    if ($autor && $autor->activo == 1) {
+                        $articuloAutor = new Articulo_Autor();
+                        $articuloAutor->articulo_id = $articulo->id;
+                        $articuloAutor->autor_id = $autorId;
+                        $articuloAutor->posicion = $posicion;
+                        $articuloAutor->activo = 1;
+                        $articuloAutor->save();
+                        $posicion++;
+                    }
                 }
             }
         }
 
-        return redirect('/articulo');
+        return redirect('/articulo')->with('success', 'Artículo creado exitosamente');
     }
 
     /**
@@ -81,16 +86,20 @@ class ArticuloController extends Controller
      */
     public function edit(string $id)
     {
-         $articulo = Articulo::with(['revista', 'autores'])->find($id);
-    $revistas = Revista::where('activo', 1)->get();
-    $autores = Autor::where('activo', 1)->get();
-    $asignaciones = $articulo->autores;
+        $articulo = Articulo::find($id);
+        // Solo mostrar revistas y autores ACTIVOS
+        $revistas = Revista::where('activo', 1)->get();
+        $autores = Autor::where('activo', 1)->get();
+        $asignaciones = Articulo_Autor::where('articulo_id', $id)
+            ->with('autor')
+            ->orderBy('posicion')
+            ->get();
 
-    return view('articulo.edit')
-        ->with('articuloE', $articulo)
-        ->with('revistas', $revistas)
-        ->with('autores', $autores)
-        ->with('asignaciones', $asignaciones);
+        return view('articulo.edit')
+            ->with('articuloE', $articulo)
+            ->with('revistas', $revistas)
+            ->with('autores', $autores)
+            ->with('asignaciones', $asignaciones);
     }
 
     /**
@@ -114,28 +123,38 @@ class ArticuloController extends Controller
 
             foreach ($autores as $autorId) {
                 if ($autorId != "") {
-                    $articuloAutor = new Articulo_Autor();
-                    $articuloAutor->articulo_id = $articulo->id;
-                    $articuloAutor->autor_id = $autorId;
-                    $articuloAutor->posicion = $posicion;
-                    $articuloAutor->activo = 1;
-                    $articuloAutor->save();
-
-                    $posicion++;
+                    // Verificar que el autor esté activo
+                    $autor = Autor::find($autorId);
+                    if ($autor && $autor->activo == 1) {
+                        $articuloAutor = new Articulo_Autor();
+                        $articuloAutor->articulo_id = $articulo->id;
+                        $articuloAutor->autor_id = $autorId;
+                        $articuloAutor->posicion = $posicion;
+                        $articuloAutor->activo = 1;
+                        $articuloAutor->save();
+                        $posicion++;
+                    }
                 }
             }
         }
 
-        return redirect('/articulo');
+        return redirect('/articulo')->with('success', 'Artículo actualizado exitosamente');
     }
 
     /**
-     * Mostrar artículos por revista.
+     * Mostrar artículos por revista (solo revistas activas y artículos activos)
      */
     public function porRevista(string $id)
     {
         $revista = Revista::find($id);
-        $articulos = Articulo::where('revista_id', $id)->get();
+        
+        if (!$revista || $revista->activo == 0) {
+            return redirect('/revista')->with('error', 'Revista no encontrada o desactivada');
+        }
+        
+        $articulos = Articulo::where('revista_id', $id)
+            ->where('activo', 1)
+            ->get();
 
         return view('articulo.por_revista')
             ->with('articulos', $articulos)
@@ -150,7 +169,7 @@ class ArticuloController extends Controller
         $eliminado = Articulo::find($id);
         $eliminado->delete();
 
-        return redirect('/articulo');
+        return redirect('/articulo')->with('success', 'Artículo eliminado exitosamente');
     }
 
     /**
@@ -162,12 +181,14 @@ class ArticuloController extends Controller
 
         if ($articulo->activo == 1) {
             $articulo->activo = 0;
+            $mensaje = 'Artículo desactivado exitosamente';
         } else {
             $articulo->activo = 1;
+            $mensaje = 'Artículo activado exitosamente';
         }
 
         $articulo->save();
 
-        return redirect('/articulo');
+        return redirect('/articulo')->with('success', $mensaje);
     }
 }

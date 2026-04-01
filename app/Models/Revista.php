@@ -33,4 +33,10 @@ class Revista extends Model
     {
         return $query->where('activo', true);
     }
+
+    
+    // public function scopeActivos($query)
+    // {
+    //     return $query->where('activo', 1);
+    // }
 }

@@ -22,6 +22,8 @@ class Autor extends Model
         'activo' => 'boolean'
     ];
 
+    
+
     public function articulos()
     {
         return $this->belongsToMany(Articulo::class, 'articulo_autor', 'autor_id', 'articulo_id')
@@ -38,4 +40,10 @@ class Autor extends Model
     {
         return $this->hasMany(Articulo_Autor::class, 'autor_id');
     }
+
+    
+    // public function scopeActivos($query)
+    // {
+    //     return $query->where('activo', 1);
+    // }
 }

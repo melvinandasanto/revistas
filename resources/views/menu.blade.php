@@ -20,5 +20,8 @@
     <a href="/articulo">
         <button>Artículos</button>
     </a>
+    <a href="{{ route('logout') }}">
+    <button>Cerrar Sesión</button>
+</a>
 </body>
 </html>

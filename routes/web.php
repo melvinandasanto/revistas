@@ -5,7 +5,12 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\RevistaController;
 use App\Http\Controllers\AutorController;
 use App\Http\Controllers\ArticuloController;
+use App\Http\Controllers\UsuarioController;
 
+Route::get('/usuarios', [UsuarioController::class, 'index'])->name('usuarios.index');
+Route::get('/usuarios/create', [UsuarioController::class, 'create'])->name('usuarios.create');
+Route::post('/usuarios', [UsuarioController::class, 'store'])->name('usuarios.store');
+Route::get('/usuarios/toggle/{id}', [UsuarioController::class, 'toggle'])->name('usuarios.toggle');
 // ---------------------------------
 // LOGIN Y MENÚ PRINCIPAL
 // ---------------------------------

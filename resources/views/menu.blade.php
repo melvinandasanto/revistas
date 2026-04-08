@@ -22,6 +22,8 @@
     </a>
     <a href="{{ route('logout') }}">
     <button>Cerrar Sesión</button>
-</a>
+    </a>
+    <a href="{{ route('usuarios.index') }}">Usuarios</a>
+
 </body>
 </html>

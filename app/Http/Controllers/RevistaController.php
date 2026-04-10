@@ -86,6 +86,15 @@ class RevistaController extends Controller
     }
 
     /**
+     * Show form to change status
+     */
+    public function deactivate(string $id)
+    {
+        $revista = Revista::find($id);
+        return view('revista.deactivate')->with('revistaE', $revista);
+    }
+
+    /**
      * Desactivar o activar registro.
      */
     public function cambiarEstado(string $id)

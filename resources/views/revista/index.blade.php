@@ -1,121 +1,85 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Lista de Revistas</title>
-    <style>
-        .activo {
-            color: green;
-            font-weight: bold;
-        }
-        .inactivo {
-            color: red;
-            font-weight: bold;
-        }
-        .success {
-            color: green;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid green;
-            background-color: #e6ffe6;
-        }
-        .error {
-            color: red;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid red;
-            background-color: #ffe6e6;
-        }
-        table {
-            border-collapse: collapse;
-            width: 100%;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        .estado-boton {
-            padding: 5px 10px;
-            cursor: pointer;
-        }
-        .btn-activar {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-        }
-        .btn-desactivar {
-            background-color: #ff9800;
-            color: white;
-            border: none;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
 <body>
-    <h1>Lista de Revistas</h1>
-    
-    @if(session('success'))
-        <div class="success">{{ session('success') }}</div>
-    @endif
-    
-    @if(session('error'))
-        <div class="error">{{ session('error') }}</div>
-    @endif
-    
-    <a href="/revista/create">Crear Revista</a>
-    
-    <br><br>
-    
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>ISSN</th>
-                <th>Número</th>
-                <th>Título</th>
-                <th>Año de Publicación</th>
-                <th>Estado</th>
-                <th>Editar</th>
-                <th>Estado</th>
-                <th>Artículos</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($resultado as $revista)
-            <tr>
-                <td>{{ $revista->id }}</td>
-                <td>{{ $revista->issn }}</td>
-                <td>{{ $revista->numero }}</td>
-                <td>{{ $revista->titulo }}</td>
-                <td>{{ $revista->anio_publicacion }}</td>
-                <td class="{{ $revista->activo == 1 ? 'activo' : 'inactivo' }}">
-                    {{ $revista->activo == 1 ? 'Activa' : 'Inactiva' }}
-                </td>
-                <td><a href="/revista/{{ $revista->id }}/edit">Editar</a></td>
-               <td>
-    <a href="{{ route('revista.deactivate', $revista->id) }}">
-        <button class="estado-boton {{ $revista->activo == 1 ? 'btn-desactivar' : 'btn-activar' }}">
-            {{ $revista->activo == 1 ? 'Desactivar' : 'Activar' }}
-        </button>
-    </a>
-</td>
-                <td>
-                    @if($revista->activo == 1)
-                        <a href="/articulo/revista/{{ $revista->id }}">Ver Artículos</a>
-                    @else
-                        <span style="color: gray;">Desactivada</span>
-                    @endif
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-    
-    <br>
-    <a href="/">Volver al Menú</a>
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1><i class="bi bi-journal"></i> Lista de Revistas</h1>
+            <a href="/" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-left"></i> Volver al Menú
+            </a>
+        </div>
+        
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle"></i> {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+        
+        @if(session('error'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                <i class="bi bi-exclamation-circle"></i> {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        @endif
+        
+        <a href="/revista/create" class="btn btn-outline-success mb-3">
+            <i class="bi bi-plus-circle"></i> Crear Revista
+        </a>
+        
+        <div class="table-responsive">
+            <table class="table table-bordered table-striped table-hover">
+                <thead class="table-light">
+                    <tr>
+                        <th>ID</th>
+                        <th>ISSN</th>
+                        <th>Número</th>
+                        <th>Título</th>
+                        <th>Año</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($resultado as $revista)
+                    <tr>
+                        <td>{{ $revista->id }}</td>
+                        <td>{{ $revista->issn }}</td>
+                        <td>{{ $revista->numero }}</td>
+                        <td>{{ $revista->titulo }}</td>
+                        <td>{{ $revista->anio_publicacion }}</td>
+                        <td>
+                            <span class="badge {{ $revista->activo == 1 ? 'bg-success' : 'bg-danger' }}">
+                                {{ $revista->activo == 1 ? 'Activa' : 'Inactiva' }}
+                            </span>
+                        </td>
+                        <td>
+                            <a href="/revista/{{ $revista->id }}/edit" class="btn btn-outline-warning btn-sm" title="Editar">
+                                <i class="bi bi-pencil"></i> Editar
+                            </a>
+                            <a href="{{ route('revista.deactivate', $revista->id) }}" class="btn btn-outline-danger btn-sm" title="Cambiar Estado">
+                                <i class="bi bi-toggle-off"></i> {{ $revista->activo == 1 ? 'Desactivar' : 'Activar' }}
+                            </a>
+                            @if($revista->activo == 1)
+                                <a href="/articulo/revista/{{ $revista->id }}" class="btn btn-outline-info btn-sm" title="Ver Artículos">
+                                    <i class="bi bi-file-text"></i> Artículos
+                                </a>
+                            @endif
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

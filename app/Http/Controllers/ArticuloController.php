@@ -114,7 +114,7 @@ class ArticuloController extends Controller
         $articulo->revista_id = $request->get('revista_id');
         $articulo->save();
 
-        Articulo_Autor::where('articulo_id', $id)->delete();
+        Articulo_Autor::where('articulo_id', $id)->forceDelete();
 
         $autores = $request->get('autores');
 
@@ -154,6 +154,7 @@ class ArticuloController extends Controller
         
         $articulos = Articulo::where('revista_id', $id)
             ->where('activo', 1)
+            ->with(['articuloAutores.autor'])
             ->get();
 
         return view('articulo.por_revista')
@@ -170,6 +171,15 @@ class ArticuloController extends Controller
         $eliminado->delete();
 
         return redirect('/articulo')->with('success', 'Artículo eliminado exitosamente');
+    }
+
+    /**
+     * Show form to change status
+     */
+    public function deactivate(string $id)
+    {
+        $articulo = Articulo::find($id);
+        return view('articulo.deactivate')->with('articuloE', $articulo);
     }
 
     /**

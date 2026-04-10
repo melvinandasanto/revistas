@@ -1,35 +1,71 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Editar Revista</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
 <body>
-    <h1>Editar Revista</h1>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-warning">
+                        <h2 class="card-title mb-0 text-white">
+                            <i class="bi bi-pencil"></i> Editar Revista
+                        </h2>
+                    </div>
+                    
+                    <div class="card-body">
+                        <form action="/revista/{{$revistaE->id}}" method="POST">
+                            @csrf
+                            @method('PUT')
 
-    <form action="/revista/{{$revistaE->id}}" method="POST">
-        @csrf
-        @method('PUT')
+                            <div class="mb-3">
+                                <label for="id" class="form-label">ID</label>
+                                <input type="text" class="form-control" name="id" id="id" value="{{$revistaE->id}}" readonly>
+                            </div>
 
-        <label for="id">ID</label>
-        <input type="text" name="id" id="id" value="{{$revistaE->id}}">
+                            <div class="mb-3">
+                                <label for="issn" class="form-label">ISSN</label>
+                                <input type="text" class="form-control" name="issn" id="issn" value="{{$revistaE->issn}}" required>
+                            </div>
 
-        <label for="issn">ISSN</label>
-        <input type="text" name="issn" id="issn" value="{{$revistaE->issn}}">
+                            <div class="mb-3">
+                                <label for="numero" class="form-label">Número de Revista</label>
+                                <input type="text" class="form-control" name="numero" id="numero" value="{{$revistaE->numero}}" required>
+                            </div>
 
-        <label for="numero">Número de Revista</label>
-        <input type="text" name="numero" id="numero" value="{{$revistaE->numero}}">
+                            <div class="mb-3">
+                                <label for="titulo" class="form-label">Título</label>
+                                <input type="text" class="form-control" name="titulo" id="titulo" value="{{$revistaE->titulo}}" required>
+                            </div>
 
-        <label for="titulo">Título</label>
-        <input type="text" name="titulo" id="titulo" value="{{$revistaE->titulo}}">
+                            <div class="mb-3">
+                                <label for="anio_publicacion" class="form-label">Año de Publicación</label>
+                                <input type="text" class="form-control" name="anio_publicacion" id="anio_publicacion" value="{{$revistaE->anio_publicacion}}" required>
+                            </div>
 
-        <label for="anio_publicacion">Año de Publicación</label>
-        <input type="text" name="anio_publicacion" id="anio_publicacion" value="{{$revistaE->anio_publicacion}}">
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-outline-warning">
+                                    <i class="bi bi-check2"></i> Actualizar Revista
+                                </button>
+                            </div>
+                        </form>
+                    </div>
 
-       
+                    <div class="card-footer">
+                        <a href="/revista" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-        <button type="submit">Actualizar Revista</button>
-    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

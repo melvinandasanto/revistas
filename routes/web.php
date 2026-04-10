@@ -39,9 +39,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('revista/deactivate/{id}', [RevistaController::class, 'deactivate'])->name('revista.deactivate');
     Route::put('revista/cambiarEstado/{id}', [RevistaController::class, 'cambiarEstado'])->name('revista.cambiarEstado');
 
+    Route::get('articulo/deactivate/{id}', [ArticuloController::class, 'deactivate'])->name('articulo.deactivate');
     Route::put('articulo/cambiarEstado/{id}', [ArticuloController::class, 'cambiarEstado'])->name('articulo.cambiarEstado');
 
     // Rutas adicionales
     Route::get('/articulo/revista/{id}', [ArticuloController::class, 'porRevista'])->name('articulo.porRevista');
-    Route::get('/articulo/autor/{id}', [ArticuloController::class, 'porAutor'])->name('articulo.porAutor');
+    Route::get('/articulo/autor/{id}', [AutorController::class, 'porAutor'])->name('articulo.porAutor');
 });

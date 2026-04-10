@@ -1,36 +1,62 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Eliminar Revista</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        body {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+        }
+        .container-card {
+            max-width: 600px;
+            margin: 50px auto;
+        }
+    </style>
 </head>
 <body>
-    <h1>Eliminar Revista</h1>
-    
-    <form action="/revista/{{$revistaE->id}}" method="POST">
-        @csrf
-        @method('DELETE')
+    <div class="container container-card">
+        <div class="card">
+            <div class="card-header bg-danger">
+                <h2 class="card-title mb-0 text-white">
+                    <i class="bi bi-trash"></i> Eliminar Revista
+                </h2>
+            </div>
+            
+            <div class="card-body">
+                <div class="alert alert-warning">
+                    <strong><i class="bi bi-exclamation-triangle"></i> Advertencia:</strong> Esta acción eliminará la revista de la base de datos de forma permanente.
+                </div>
 
-        <label for="id">ID</label>
-        <input type="text" name="id" id="id" value="{{$revistaE->id}}">
+                <div class="alert alert-info">
+                    <p><strong>ID:</strong> {{ $revistaE->id }}</p>
+                    <p><strong>ISSN:</strong> {{ $revistaE->issn }}</p>
+                    <p><strong>Número:</strong> {{ $revistaE->numero }}</p>
+                    <p><strong>Título:</strong> {{ $revistaE->titulo }}</p>
+                    <p><strong>Año de Publicación:</strong> {{ $revistaE->anio_publicacion }}</p>
+                </div>
 
-        <label for="ISSN">ISSN</label>
-        <input type="text" name="ISSN" id="ISSN" value="{{$revistaE->ISSN}}">
+                <p class="lead text-danger"><strong>¿Está completamente seguro?</strong></p>
+            </div>
+            
+            <div class="card-footer">
+                <form action="/revista/{{$revistaE->id}}" method="POST" style="display: inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="btn btn-outline-danger">
+                        <i class="bi bi-trash"></i> Confirmar Eliminar
+                    </button>
+                </form>
+                <a href="/revista">
+                    <button type="button" class="btn btn-outline-secondary">Cancelar</button>
+                </a>
+            </div>
+        </div>
+    </div>
 
-        <label for="numero_revista">Número de Revista</label>
-        <input type="text" name="numero_revista" id="numero_revista" value="{{$revistaE->numero_revista}}">
-
-        <label for="titulo">Título</label>
-        <input type="text" name="titulo" id="titulo" value="{{$revistaE->titulo}}">
-
-        <label for="fecha_lanzamiento">Fecha de Lanzamiento</label>
-        <input type="text" name="fecha_lanzamiento" id="fecha_lanzamiento" value="{{$revistaE->fecha_lanzamiento}}">
-
-        <label for="categoria">Categoría</label>
-        <input type="text" name="categoria" id="categoria" value="{{$revistaE->categoria}}">
-
-        <button type="submit">Eliminar Revista</button>
-    </form>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

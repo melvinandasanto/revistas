@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cambiar Estado de Revista</title>
+    <title>Cambiar Estado de Artículo</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
     <style>
         body {
             background-color: #f8f9fa;
@@ -21,45 +20,44 @@
     <div class="container container-card">
         <div class="card">
             <div class="card-header bg-warning">
-                <h2 class="card-title mb-0 text-white">Cambiar Estado de Revista</h2>
+                <h2 class="card-title mb-0">Cambiar Estado de Artículo</h2>
             </div>
             
             <div class="card-body">
                 <div class="alert alert-info">
-                    <p><strong>ID:</strong> {{ $revistaE->id }}</p>
-                    <p><strong>ISSN:</strong> {{ $revistaE->issn }}</p>
-                    <p><strong>Número:</strong> {{ $revistaE->numero }}</p>
-                    <p><strong>Título:</strong> {{ $revistaE->titulo }}</p>
-                    <p><strong>Año de Publicación:</strong> {{ $revistaE->anio_publicacion }}</p>
+                    <p><strong>ID:</strong> {{ $articuloE->id }}</p>
+                    <p><strong>Título:</strong> {{ $articuloE->titulo }}</p>
+                    <p><strong>Página Inicio:</strong> {{ $articuloE->pag_inicio }}</p>
+                    <p><strong>Página Fin:</strong> {{ $articuloE->pag_fin }}</p>
                     <p><strong>Estado actual:</strong> 
-                        <span class="{{ $revistaE->activo == 1 ? 'text-success fw-bold' : 'text-danger fw-bold' }}">
-                            {{ $revistaE->activo == 1 ? 'Activa' : 'Inactiva' }}
+                        <span class="{{ $articuloE->activo == 1 ? 'text-success fw-bold' : 'text-danger fw-bold' }}">
+                            {{ $articuloE->activo == 1 ? 'Activo' : 'Inactivo' }}
                         </span>
                     </p>
                 </div>
                 
-                <p class="lead">¿Está seguro que desea {{ $revistaE->activo == 1 ? 'DESACTIVAR' : 'ACTIVAR' }} esta revista?</p>
+                <p class="lead">¿Está seguro que desea {{ $articuloE->activo == 1 ? 'DESACTIVAR' : 'ACTIVAR' }} este artículo?</p>
                 
-                @if($revistaE->activo == 1)
+                @if($articuloE->activo == 1)
                     <div class="alert alert-warning">
-                        <strong>Nota:</strong> Al desactivar esta revista, no podrá ser seleccionada en nuevos artículos.
+                        <strong>Nota:</strong> Al desactivar este artículo, no aparecerá en listados de artículos activos.
                     </div>
                 @else
                     <div class="alert alert-success">
-                        <strong>Nota:</strong> Al activar esta revista, estará disponible para ser seleccionada en artículos.
+                        <strong>Nota:</strong> Al activar este artículo, estará visible en los listados de artículos.
                     </div>
                 @endif
             </div>
             
             <div class="card-footer">
-                <form action="{{ route('revista.cambiarEstado', $revistaE->id) }}" method="POST" style="display: inline;">
+                <form action="{{ route('articulo.cambiarEstado', $articuloE->id) }}" method="POST" style="display: inline;">
                     @csrf
                     @method('PUT')
                     <button type="submit" class="btn btn-outline-danger">
-                        {{ $revistaE->activo == 1 ? 'Desactivar' : 'Activar' }}
+                        {{ $articuloE->activo == 1 ? 'Desactivar' : 'Activar' }}
                     </button>
                 </form>
-                <a href="/revista">
+                <a href="/articulo">
                     <button type="button" class="btn btn-outline-secondary">Cancelar</button>
                 </a>
             </div>

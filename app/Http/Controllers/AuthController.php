@@ -11,36 +11,36 @@ class AuthController extends Controller
 {
     // Mostrar login
     public function login()
-{
-    if(auth()->check()) {
-        // Redirige según rol si ya está logueado
-        return redirect('/menu');
-    }
+    {
+        if(auth()->check()) {
+            // Redirige según rol si ya está logueado
+            return redirect('/menu');
+        }
 
-    return view('login.login'); 
-}
+        return view('login.login'); 
+    }
 
     // Procesar login
     public function loginPost(Request $request)
-{
-    $credentials = $request->only('email', 'password');
+    {
+        $credentials = $request->only('email', 'password');
 
-    // Buscar el usuario primero
-    $user = User::where('email', $request->email)->first();
+        // Buscar el usuario primero
+        $user = User::where('email', $request->email)->first();
 
-    //  Si el usuario existe pero está desactivado
-    if ($user && !$user->activo) {
-        return back()->withErrors(['email' => 'Usuario desactivado']);
+        //  Si el usuario existe pero está desactivado
+        if ($user && !$user->activo) {
+            return back()->withErrors(['email' => 'Usuario desactivado']);
+        }
+
+        // ✅ Intentar login
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+            return redirect('/menu');
+        }
+
+        return back()->withErrors(['email' => 'Credenciales incorrectas'])->withInput();
     }
-
-    // ✅ Intentar login
-    if (Auth::attempt($credentials)) {
-        $request->session()->regenerate();
-        return redirect('/menu');
-    }
-
-    return back()->withErrors(['email' => 'Credenciales incorrectas'])->withInput();
-}
 
     // Cerrar sesión
     public function logout(Request $request)

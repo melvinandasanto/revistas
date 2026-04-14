@@ -47,4 +47,8 @@ class Articulo extends Model
     {
         return $query->where('activo', true);
     }
+    public function user()
+{
+    return $this->belongsTo(User::class);
+}
 }

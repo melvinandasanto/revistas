@@ -46,3 +46,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/articulo/revista/{id}', [ArticuloController::class, 'porRevista'])->name('articulo.porRevista');
     Route::get('/articulo/autor/{id}', [AutorController::class, 'porAutor'])->name('articulo.porAutor');
 });
+Route::middleware(['auth'])->group(function () {
+    Route::get('/mis-articulos', [ArticuloController::class, 'misArticulos']);
+});

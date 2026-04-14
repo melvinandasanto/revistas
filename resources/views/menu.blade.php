@@ -113,11 +113,18 @@
                     <i class="bi bi-file-text"></i>
                     Artículos
                 </a>
-
+            @if(Auth::user()->isAdmin())
                 <a href="{{ route('usuarios.index') }}" class="menu-btn btn-usuarios">
                     <i class="bi bi-people"></i>
                     Usuarios
                 </a>
+            @endif
+            @if(Auth::user()->rol == 'autor')
+                    <a href="/mis-articulos" class="menu-btn btn-articulos">
+                    <i class="bi bi-journal-text"></i>
+                    Mis Artículos
+                </a>
+            @endif
             </div>
         </div>
     </div>

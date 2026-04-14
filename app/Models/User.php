@@ -22,7 +22,8 @@ class User extends Authenticatable
     'name',
     'email',
     'password',
-    'activo'
+    'activo',
+    'rol'
 ];
 
     /**
@@ -55,5 +56,18 @@ public function roles()
 public function hasRole($role)
 {
     return $this->roles->contains('name', $role);
+}
+public function isAdmin()
+{
+    return $this->rol === 'admin';
+}
+
+public function isAutor()
+{
+    return $this->rol === 'autor';
+}
+public function articulos()
+{
+    return $this->hasMany(Articulo::class);
 }
 }

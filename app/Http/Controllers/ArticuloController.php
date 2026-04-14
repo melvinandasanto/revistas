@@ -40,11 +40,10 @@ class ArticuloController extends Controller
     public function store(Request $request)
     {
         $articulo = new Articulo();
-        $articulo->titulo = $request->get('titulo');
-        $articulo->pag_inicio = $request->get('pag_inicio');
-        $articulo->pag_fin = $request->get('pag_fin');
-        $articulo->revista_id = $request->get('revista_id');
-        $articulo->activo = 1;
+        $articulo->titulo = $request->titulo;
+        $articulo->pag_inicio = $request->pag_inicio;
+        $articulo->pag_fin = $request->pag_fin;
+        $articulo->user_id = auth()->id(); // Asignar el ID del usuario autenticado
         $articulo->save();
 
         $autores = $request->get('autores');
@@ -201,4 +200,13 @@ class ArticuloController extends Controller
 
         return redirect('/articulo')->with('success', $mensaje);
     }
+    public function misArticulos()
+    {
+        $user = auth()->user();
+
+        $articulos = $user->articulos()->get(); 
+
+        return view('articulos.mis', compact('articulos'));
+    }
+
 }

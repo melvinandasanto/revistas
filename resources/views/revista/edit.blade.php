@@ -19,6 +19,18 @@
                     </div>
                     
                     <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <h5 class="alert-heading">Errores de validación</h5>
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
                         <form action="/revista/{{$revistaE->id}}" method="POST">
                             @csrf
                             @method('PUT')
@@ -30,22 +42,22 @@
 
                             <div class="mb-3">
                                 <label for="issn" class="form-label">ISSN</label>
-                                <input type="text" class="form-control" name="issn" id="issn" value="{{$revistaE->issn}}" required>
+                                <input type="text" class="form-control" name="issn" id="issn" value="{{ old('issn', $revistaE->issn) }}" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="numero" class="form-label">Número de Revista</label>
-                                <input type="text" class="form-control" name="numero" id="numero" value="{{$revistaE->numero}}" required>
+                                <input type="text" class="form-control" name="numero" id="numero" value="{{ old('numero', $revistaE->numero) }}" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="titulo" class="form-label">Título</label>
-                                <input type="text" class="form-control" name="titulo" id="titulo" value="{{$revistaE->titulo}}" required>
+                                <input type="text" class="form-control" name="titulo" id="titulo" value="{{ old('titulo', $revistaE->titulo) }}" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="anio_publicacion" class="form-label">Año de Publicación</label>
-                                <input type="text" class="form-control" name="anio_publicacion" id="anio_publicacion" value="{{$revistaE->anio_publicacion}}" required>
+                                <input type="text" class="form-control" name="anio_publicacion" id="anio_publicacion" value="{{ old('anio_publicacion', $revistaE->anio_publicacion) }}" required>
                             </div>
 
                             <div class="d-grid gap-2">

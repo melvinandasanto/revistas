@@ -11,7 +11,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Registrar middleware alias para rutas
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminOnly::class,
+            'autor' => \App\Http\Middleware\AutorOnly::class,
+            'restrict_writes' => \App\Http\Middleware\RestrictWriteOperations::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

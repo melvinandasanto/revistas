@@ -139,7 +139,4 @@ class AutorController extends Controller
             ->with('autor', $autor)
             ->with('asignaciones', $asignaciones);
     }
-    if (auth()->user()->rol !== 'admin') {
-    abort(403);
-}
 }

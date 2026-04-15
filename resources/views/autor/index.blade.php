@@ -11,7 +11,7 @@
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1><i class="bi bi-person-circle"></i> Lista de Autores</h1>
-            <a href="/" class="btn btn-outline-secondary">
+            <a href="{{ route('menu') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> Volver al Menú
             </a>
         </div>
@@ -30,9 +30,11 @@
             </div>
         @endif
         
-        <a href="/autor/create" class="btn btn-outline-success mb-3">
+        @if(Auth::user()->isAdmin())
+        <a href="{{ route('autor.create') }}" class="btn btn-outline-success mb-3">
             <i class="bi bi-plus-circle"></i> Crear Autor
         </a>
+        @endif
         
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
@@ -59,14 +61,16 @@
                             </span>
                         </td>
                         <td>
-                            <a href="/autor/{{ $autor->id }}/edit" class="btn btn-outline-warning btn-sm" title="Editar">
+                            @if(Auth::user()->isAdmin())
+                            <a href="{{ route('autor.edit', $autor->id) }}" class="btn btn-outline-warning btn-sm" title="Editar">
                                 <i class="bi bi-pencil"></i> Editar
                             </a>
-                            <a href="/autor/deactivate/{{ $autor->id }}" class="btn btn-outline-danger btn-sm" title="Cambiar Estado">
+                            <a href="{{ route('autor.deactivate', $autor->id) }}" class="btn btn-outline-danger btn-sm" title="Cambiar Estado">
                                 <i class="bi bi-toggle-off"></i> {{ $autor->activo == 1 ? 'Desactivar' : 'Activar' }}
                             </a>
+                            @endif
                             @if($autor->activo == 1)
-                                <a href="/articulo/autor/{{ $autor->id }}" class="btn btn-outline-info btn-sm" title="Ver Artículos">
+                                <a href="{{ route('articulo.porAutor', $autor->id) }}" class="btn btn-outline-info btn-sm" title="Ver Artículos">
                                     <i class="bi bi-file-text"></i> Artículos
                                 </a>
                             @endif

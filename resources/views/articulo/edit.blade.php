@@ -53,6 +53,18 @@
             </div>
             
             <div class="card-body">
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <h5 class="alert-heading">Errores de validación</h5>
+                        <ul class="mb-0">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
                 <form action="/articulo/{{$articuloE->id}}" method="POST" id="articuloForm">
                     @csrf
                     @method('PUT')
@@ -70,21 +82,21 @@
                         <div class="col-md-6">
                             <div class="search-container">
                                 <label for="titulo" class="form-label">Título</label>
-                                <input type="text" name="titulo" id="titulo" class="form-control search-input" value="{{$articuloE->titulo}}" required>
+                                <input type="text" name="titulo" id="titulo" class="form-control search-input" value="{{ old('titulo', $articuloE->titulo) }}" required>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="search-container">
                                 <label for="pag_inicio" class="form-label">Página Inicio</label>
-                                <input type="number" name="pag_inicio" id="pag_inicio" class="form-control search-input" value="{{$articuloE->pag_inicio}}" required>
+                                <input type="number" name="pag_inicio" id="pag_inicio" class="form-control search-input" value="{{ old('pag_inicio', $articuloE->pag_inicio) }}" required>
                             </div>
                         </div>
 
                         <div class="col-md-3">
                             <div class="search-container">
                                 <label for="pag_fin" class="form-label">Página Fin</label>
-                                <input type="number" name="pag_fin" id="pag_fin" class="form-control search-input" value="{{$articuloE->pag_fin}}" required>
+                                <input type="number" name="pag_fin" id="pag_fin" class="form-control search-input" value="{{ old('pag_fin', $articuloE->pag_fin) }}" required>
                             </div>
                         </div>
                     </div>

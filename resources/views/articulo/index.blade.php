@@ -11,14 +11,16 @@
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1><i class="bi bi-file-text"></i> Lista de Artículos</h1>
-            <a href="/" class="btn btn-outline-secondary">
+            <a href="{{ route('menu') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> Volver al Menú
             </a>
         </div>
 
-        <a href="/articulo/create" class="btn btn-outline-success mb-3">
+        @if(Auth::user()->isAdmin())
+        <a href="{{ route('articulo.create') }}" class="btn btn-outline-success mb-3">
             <i class="bi bi-plus-circle"></i> Crear Artículo
         </a>
+        @endif
 
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
@@ -60,12 +62,14 @@
                             @endif
                         </td>
                         <td>
-                            <a href="/articulo/{{ $articulo->id }}/edit" class="btn btn-outline-warning btn-sm" title="Editar">
+                            @if(Auth::user()->isAdmin())
+                            <a href="{{ route('articulo.edit', $articulo->id) }}" class="btn btn-outline-warning btn-sm" title="Editar">
                                 <i class="bi bi-pencil"></i> Editar
                             </a>
                             <a href="{{ route('articulo.deactivate', $articulo->id) }}" class="btn btn-outline-danger btn-sm" title="Cambiar Estado">
                                 <i class="bi bi-toggle-off"></i> {{ $articulo->activo == 1 ? 'Desactivar' : 'Activar' }}
                             </a>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

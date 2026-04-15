@@ -19,27 +19,51 @@
                     </div>
                     
                     <div class="card-body">
-                        <form action="/revista" method="POST">
+                        @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <strong><i class="bi bi-exclamation-circle"></i> Errores de validación:</strong>
+                                <ul class="mb-0 mt-2">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                            </div>
+                        @endif
+
+                        <form action="{{ route('revista.store') }}" method="POST" novalidate>
                             @csrf
 
                             <div class="mb-3">
                                 <label for="issn" class="form-label">ISSN</label>
-                                <input type="text" class="form-control" name="issn" id="issn" required>
+                                <input type="text" class="form-control @error('issn') is-invalid @enderror" name="issn" id="issn" value="{{ old('issn') }}" required>
+                                @error('issn')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label for="numero" class="form-label">Número de Revista</label>
-                                <input type="text" class="form-control" name="numero" id="numero" required>
+                                <input type="text" class="form-control @error('numero') is-invalid @enderror" name="numero" id="numero" value="{{ old('numero') }}" required>
+                                @error('numero')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label for="titulo" class="form-label">Título</label>
-                                <input type="text" class="form-control" name="titulo" id="titulo" required>
+                                <input type="text" class="form-control @error('titulo') is-invalid @enderror" name="titulo" id="titulo" value="{{ old('titulo') }}" required>
+                                @error('titulo')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="mb-3">
                                 <label for="anio_publicacion" class="form-label">Año de Publicación</label>
-                                <input type="text" class="form-control" name="anio_publicacion" id="anio_publicacion" required>
+                                <input type="text" class="form-control @error('anio_publicacion') is-invalid @enderror" name="anio_publicacion" id="anio_publicacion" value="{{ old('anio_publicacion') }}" required>
+                                @error('anio_publicacion')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
                             </div>
 
                             <div class="d-grid gap-2">

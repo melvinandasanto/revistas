@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar Autor</title>
+    <title>Editar Usuario</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
 </head>
@@ -14,7 +14,7 @@
                 <div class="card">
                     <div class="card-header bg-warning">
                         <h2 class="card-title mb-0 text-white">
-                            <i class="bi bi-pencil"></i> Editar Autor
+                            <i class="bi bi-pencil-square"></i> Editar Usuario
                         </h2>
                     </div>
                     
@@ -31,41 +31,45 @@
                             </div>
                         @endif
 
-                        <form action="/autor/{{$autorE->id}}" method="POST">
+                        <form method="POST" action="{{ route('usuarios.update', $usuario->id) }}">
                             @csrf
                             @method('PUT')
 
                             <div class="mb-3">
                                 <label for="id" class="form-label">ID</label>
-                                <input type="text" class="form-control" name="id" id="id" value="{{$autorE->id}}" readonly>
+                                <input type="text" class="form-control" id="id" name="id" value="{{ $usuario->id }}" disabled>
                             </div>
 
                             <div class="mb-3">
-                                <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" name="nombre" id="nombre" value="{{ old('nombre', $autorE->nombre) }}" required>
+                                <label for="name" class="form-label">Nombre</label>
+                                <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $usuario->name) }}" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="correo" class="form-label">Correo</label>
-                                <input type="email" class="form-control" name="correo" id="correo" value="{{ old('correo', $autorE->correo) }}" required>
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" name="email" value="{{ old('email', $usuario->email) }}" required>
                             </div>
 
                             <div class="mb-3">
-                                <label for="adscripcion" class="form-label">Adscripción</label>
-                                <input type="text" class="form-control" name="adscripcion" id="adscripcion" value="{{ old('adscripcion', $autorE->adscripcion) }}">
+                                <label for="rol" class="form-label">Rol</label>
+                                <select class="form-select" id="rol" name="rol" required>
+                                    <option value="admin" {{ old('rol', $usuario->rol) === 'admin' ? 'selected' : '' }}>Admin</option>
+                                    <option value="autor" {{ old('rol', $usuario->rol) === 'autor' ? 'selected' : '' }}>Autor</option>
+                                    <option value="usuario" {{ old('rol', $usuario->rol) === 'usuario' ? 'selected' : '' }}>Usuario</option>
+                                </select>
                             </div>
 
                             <div class="d-grid gap-2">
                                 <button type="submit" class="btn btn-outline-warning">
-                                    <i class="bi bi-check2"></i> Actualizar Autor
+                                    <i class="bi bi-check2"></i> Guardar Cambios
                                 </button>
                             </div>
                         </form>
                     </div>
 
                     <div class="card-footer">
-                        <a href="/autor" class="btn btn-outline-secondary">
-                            <i class="bi bi-arrow-left"></i> Cancelar
+                        <a href="{{ route('usuarios.index') }}" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Volver
                         </a>
                     </div>
                 </div>

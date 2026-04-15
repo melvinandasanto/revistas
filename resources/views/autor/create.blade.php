@@ -19,22 +19,34 @@
                     </div>
                     
                     <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                                <h5 class="alert-heading">Errores de validación</h5>
+                                <ul class="mb-0">
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        @endif
+
                         <form action="/autor" method="POST">
                             @csrf
 
                             <div class="mb-3">
                                 <label for="nombre" class="form-label">Nombre</label>
-                                <input type="text" class="form-control" name="nombre" id="nombre" required>
+                                <input type="text" class="form-control" name="nombre" id="nombre" value="{{ old('nombre') }}" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="correo" class="form-label">Correo</label>
-                                <input type="email" class="form-control" name="correo" id="correo" required>
+                                <input type="email" class="form-control" name="correo" id="correo" value="{{ old('correo') }}" required>
                             </div>
 
                             <div class="mb-3">
                                 <label for="adscripcion" class="form-label">Adscripción</label>
-                                <input type="text" class="form-control" name="adscripcion" id="adscripcion">
+                                <input type="text" class="form-control" name="adscripcion" id="adscripcion" value="{{ old('adscripcion') }}">
                             </div>
 
                             <div class="d-grid gap-2">

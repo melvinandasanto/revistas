@@ -99,17 +99,17 @@
             <h1><i class="bi bi-lightning-fill"></i> Menú Principal</h1>
             
             <div class="menu-grid">
-                <a href="/revista" class="menu-btn btn-revistas">
+                <a href="{{ route('revista.index') }}" class="menu-btn btn-revistas">
                     <i class="bi bi-journal"></i>
                     Revistas
                 </a>
 
-                <a href="/autor" class="menu-btn btn-autores">
+                <a href="{{ route('autor.index') }}" class="menu-btn btn-autores">
                     <i class="bi bi-person-circle"></i>
                     Autores
                 </a>
 
-                <a href="/articulo" class="menu-btn btn-articulos">
+                <a href="{{ route('articulo.index') }}" class="menu-btn btn-articulos">
                     <i class="bi bi-file-text"></i>
                     Artículos
                 </a>
@@ -119,9 +119,10 @@
                     Usuarios
                 </a>
             @endif
-            @if(Auth::user()->rol == 'autor')
-                    <a href="/mis-articulos" class="menu-btn btn-articulos">
-                    <i class="bi bi-journal-text"></i>
+            
+            @if(Auth::user()->isAutor())
+                <a href="{{ route('articulo.misArticulos') }}" class="menu-btn btn-articulos">
+                    <i class="bi bi-file-earmark-text"></i>
                     Mis Artículos
                 </a>
             @endif

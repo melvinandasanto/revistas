@@ -11,7 +11,7 @@
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h2><i class="bi bi-people"></i> Lista de Usuarios</h2>
-            <a href="/" class="btn btn-outline-secondary">
+            <a href="{{ route('menu') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> Volver al Menú
             </a>
         </div>
@@ -25,8 +25,9 @@
                 <tr>
                     <th>Nombre</th>
                     <th>Email</th>
+                    <th>Rol</th>
                     <th>Estado</th>
-                    <th>Acción</th>
+                    <th>Acciones</th>
                 </tr>
             </thead>
             <tbody>
@@ -35,13 +36,22 @@
                     <td>{{ $user->name }}</td>
                     <td>{{ $user->email }}</td>
                     <td>
+                        <span class="badge bg-info">{{ ucfirst($user->rol) }}</span>
+                    </td>
+                    <td>
                         <span class="badge {{ $user->activo ? 'bg-success' : 'bg-danger' }}">
                             {{ $user->activo ? 'Activo' : 'Inactivo' }}
                         </span>
                     </td>
                     <td>
-                        <a href="{{ route('usuarios.toggle', $user->id) }}" class="btn btn-outline-danger btn-sm">
-                            {{ $user->activo ? 'Desactivar' : 'Activar' }}
+                        <a href="{{ route('usuarios.edit', $user->id) }}" class="btn btn-outline-warning btn-sm">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="{{ route('usuarios.deactivate', $user->id) }}" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-toggle-off"></i>
+                        </a>
+                        <a href="{{ route('usuarios.delete', $user->id) }}" class="btn btn-outline-danger btn-sm">
+                            <i class="bi bi-trash"></i>
                         </a>
                     </td>
                 </tr>

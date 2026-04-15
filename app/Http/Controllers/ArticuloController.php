@@ -43,7 +43,8 @@ class ArticuloController extends Controller
         $articulo->titulo = $request->titulo;
         $articulo->pag_inicio = $request->pag_inicio;
         $articulo->pag_fin = $request->pag_fin;
-        $articulo->user_id = auth()->id(); // Asignar el ID del usuario autenticado
+        $articulo->revista_id = $request->revista_id; // Asignar la revista
+        $articulo->activo = 1; // Activado por defecto
         $articulo->save();
 
         $autores = $request->get('autores');
@@ -200,13 +201,29 @@ class ArticuloController extends Controller
 
         return redirect('/articulo')->with('success', $mensaje);
     }
+    
     public function misArticulos()
     {
         $user = auth()->user();
 
-        $articulos = $user->articulos()->get(); 
+        $autor = Autor::where('nombre', $user->name)
+                    ->where('correo', $user->email)
+                    ->first();
 
-        return view('articulos.mis', compact('articulos'));
+        if (!$autor) {
+            return redirect('/menu')->with('error', 'Tu nombre y correo no coinciden con ningún autor en el sistema');
+        }
+
+        $asignaciones = Articulo_Autor::where('autor_id', $autor->id)
+                                    ->where('activo', 1)
+                                    ->with('articulo')
+                                    ->orderBy('posicion')
+                                    ->get();
+
+        // Extraer solo los artículos
+        $articulos = $asignaciones->pluck('articulo');
+
+        return view('articulo.mis', compact('articulos', 'autor'));
     }
-
 }
+

@@ -20,21 +20,79 @@ class UsuarioController extends Controller
 
     public function store(Request $request)
     {
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users',
+            'password' => 'required|min:6',
+            'rol' => 'required|in:admin,autor,usuario',
+        ]);
+
         User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => bcrypt($request->password),
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => bcrypt($validated['password']),
+            'rol' => $validated['rol'],
             'activo' => 1
         ]);
 
         return redirect()->route('usuarios.index');
     }
 
+    public function edit($id)
+    {
+        $usuario = User::findOrFail($id);
+        return view('usuarios.edit', compact('usuario'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $usuario = User::findOrFail($id);
+        
+        $validated = $request->validate([
+            'name' => 'required|string',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'rol' => 'required|in:admin,autor,usuario',
+        ]);
+
+        $usuario->update($validated);
+
+        return redirect()->route('usuarios.index');
+    }
+
+    public function delete($id)
+    {
+        $usuario = User::findOrFail($id);
+        return view('usuarios.delete', compact('usuario'));
+    }
+
+    public function destroy($id)
+    {
+        $usuario = User::findOrFail($id);
+        $usuario->forceDelete();
+
+        return redirect()->route('usuarios.index');
+    }
+
+    public function deactivate($id)
+    {
+        $usuario = User::findOrFail($id);
+        return view('usuarios.deactivate', compact('usuario'));
+    }
+
+    public function cambiarEstado($id)
+    {
+        $usuario = User::findOrFail($id);
+        $usuario->activo = !$usuario->activo;
+        $usuario->save();
+
+        return redirect()->back();
+    }
+
     public function toggle($id)
     {
-        $user = User::findOrFail($id);
-        $user->activo = !$user->activo;
-        $user->save();
+        $usuario = User::findOrFail($id);
+        $usuario->activo = !$usuario->activo;
+        $usuario->save();
 
         return redirect()->back();
     }

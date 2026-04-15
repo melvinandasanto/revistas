@@ -11,7 +11,7 @@
     <div class="container mt-5">
         <div class="d-flex justify-content-between align-items-center mb-4">
             <h1><i class="bi bi-journal"></i> Lista de Revistas</h1>
-            <a href="/" class="btn btn-outline-secondary">
+            <a href="{{ route('menu') }}" class="btn btn-outline-secondary">
                 <i class="bi bi-arrow-left"></i> Volver al Menú
             </a>
         </div>
@@ -30,9 +30,11 @@
             </div>
         @endif
         
-        <a href="/revista/create" class="btn btn-outline-success mb-3">
+        @if(Auth::user()->isAdmin())
+        <a href="{{ route('revista.create') }}" class="btn btn-outline-success mb-3">
             <i class="bi bi-plus-circle"></i> Crear Revista
         </a>
+        @endif
         
         <div class="table-responsive">
             <table class="table table-bordered table-striped table-hover">
@@ -61,14 +63,16 @@
                             </span>
                         </td>
                         <td>
-                            <a href="/revista/{{ $revista->id }}/edit" class="btn btn-outline-warning btn-sm" title="Editar">
+                            @if(Auth::user()->isAdmin())
+                            <a href="{{ route('revista.edit', $revista->id) }}" class="btn btn-outline-warning btn-sm" title="Editar">
                                 <i class="bi bi-pencil"></i> Editar
                             </a>
                             <a href="{{ route('revista.deactivate', $revista->id) }}" class="btn btn-outline-danger btn-sm" title="Cambiar Estado">
                                 <i class="bi bi-toggle-off"></i> {{ $revista->activo == 1 ? 'Desactivar' : 'Activar' }}
                             </a>
+                            @endif
                             @if($revista->activo == 1)
-                                <a href="/articulo/revista/{{ $revista->id }}" class="btn btn-outline-info btn-sm" title="Ver Artículos">
+                                <a href="{{ route('articulo.porRevista', $revista->id) }}" class="btn btn-outline-info btn-sm" title="Ver Artículos">
                                     <i class="bi bi-file-text"></i> Artículos
                                 </a>
                             @endif
